@@ -51,14 +51,18 @@ function addEnvironment(text,envaddress){
     var elistitem = document.querySelectorAll("li[name]");    
     var parentlist = document.getElementById('envirlist');
     var newli = document.createElement('li');
-    var address = envaddress;
+    var address = envaddress || "122.138.29.154:8080";
     // var textnode = document.createTextNode('测试环境'+ (elistitem.length+1) + ':' + address);
-    // newli.appendChild(textnode);
+    // newli.appendChild(textnode); // 创建text节点，或者直接设置innerHTML
+    if (!envaddress) {  // 如果第二个参数是空，说明是鼠标点击新增事件
+        newli.innerHTML = '测试环境'+ (elistitem.length+1) + ':' + address;
+    } else {
+        newli.innerHTML = text + ": " + envaddress;
+    };    
     newli.setAttribute('name','elist');
     newli.setAttribute('class','list-group-item');
     newli.setAttribute('id','list'+ (elistitem.length+1));
-    newli.setAttribute('href',address); 
-    newli.innerHTML = text;
+    newli.setAttribute('href',address);     
     parentlist.appendChild(newli);
 
     // 更新全局对象envlist.item
@@ -88,10 +92,8 @@ if (addenvir) {
 $.getJSON("envir.json", function(data) {  //这是异步方式获取Json数据，data就是json对象，不需要再转换了
     for (var key in data) {   
         addEnvironment(key,data[key]); 
-        // addEnvironment(key,JSON.stringify(data[key])); 
         console.log("address = "+ data[key]);   
     };
-    // console.log("environment = "+environment);
     // $("#list2").html("功能环境: 122.138.29.155");
 
 });

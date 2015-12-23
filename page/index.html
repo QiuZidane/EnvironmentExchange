@@ -4,33 +4,46 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta content="yes" name="apple-mobile-web-app-capable" />
-    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"  />
-    <title>首页</title>
-    <link rel="stylesheet" href="../css/global.css"/>
-    <link rel="stylesheet" href="../css/group-layer.css">
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"  />   
+    <link rel="stylesheet" href="../css/bootstrap.min.css">     
     <link rel="stylesheet" href="../css/e.css">
+    <link rel="stylesheet" href="../css/group-layer.css">
+    <link rel="stylesheet" href="../css/global.css"/>
+    <title>环境选择页面</title>
+    
 </head>
 <body>
-	<div class="header">首页</div>
-    <ul class="financial-circles clearfix">
-    	<li class="item1"><a href="ctpPlugin/alert.html">Alert</a></li>
-    	<li class="item2"><a href="ctpPlugin/confirm.html">Confirm</a></li>
-    	<li class="item3"><a href="ctpPlugin/prompt.html">Prompt</a></li>
-    	<li class="item4"><a href="ctpPlugin/camera.html">拍照与相册</a></li>
-    	<li class="item5"><a href="ctpPlugin/scan.html">二维码</a></li>
-    	<li class="item6"><a href="ctpPlugin/device.html">设备信息</a></li>
-    	<li class="item7"><a href="#"></a></li>
-    	<li class="item8"></li>
-        <li class="item9"></li>
-    </ul>
-	<ul class="fixed-nav">
-        <li class="item1 current"><a href="index.html">CTP插件</a></li>
-        <li class="item2"><a href="index1.html">Protocol</a></li>
-        <li class="item3"><a href="index2.html">关&nbsp;&nbsp;于</a></li>
-    </ul>
-
-    <script type="text/javascript" src="../cordova.js"></script>
+    <div class="header">开发|测试环境选择       
+    </div>
+    <div class="envirlistbelow"> 
+        <ul id="envirlist"> 
+            <!-- <li id="list1" name="elist" href="index.html" class="list-group-item">demo环境</li> -->
+<!--             <li id="list3" name="elist" href="#" class="list-group-item">功能环境</li> 
+            <li id="list4" name="elist" href="#" class="list-group-item active">功能环境</li> 
+            <li id="list5" name="elist" href="#" class="list-group-item">功能环境</li> 
+            <li id="list6" name="elist" href="#" class="list-group-item">功能环境</li> 
+            <li id="list7" name="elist" href="#" class="list-group-item">功能环境</li> 
+            <li id="list8" name="elist" href="#" class="list-group-item">功能环境</li> 
+            <li id="list9" name="elist" href="#" class="list-group-item">功能环境</li> 
+            <li id="list10" name="elist" href="#" class="list-group-item">功能环境</li>     -->  
+        </ul> 
+        <ul><!-- 这里用了个技巧,将text左移出视线，这行的作用是保证行高 -->
+            <li tag="filler" class="list-group-item" style="text-indent:-9999px">2</li> 
+            <li tag="filler" class="list-group-item" style="text-indent:-9999px">2</li> 
+            <li tag="filler" class="list-group-item" style="text-indent:-9999px">2</li> 
+        </ul>                                                  
+    </div>
+    <div>
+        <ul class="fixed-nav">
+            <li class=""><a href="#" id="gotourl">跳&nbsp;&nbsp;&nbsp;&nbsp;转</a></li>
+            <li class="addenvir"><button>&nbsp;&nbsp;&nbsp;&nbsp;增加环境</button></li>
+        </ul> 
+    </div>
+                
     <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="../js/app.js"></script>
+    <!--  bootstrap.min.js依赖于jquery-2.1.4.min.js 需要先导入jquery-2.1.4.min.js-->
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>   
+    <script type="text/javascript" src="../js/environment.js"></script> 
+
 </body>
 </html>
