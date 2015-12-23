@@ -76,7 +76,8 @@ function addEnvironment(text,envaddress){
 var envirlist = document.getElementById('envirlist');
 if (envirlist) {
     console.log(envirlist);
-    envirlist.addEventListener('click', listSelect, false);
+    // envirlist.addEventListener('click', listSelect, false);
+    envirlist.addEventListener('click', jumpToLoading, false);
 };
 
 
@@ -86,6 +87,11 @@ if (addenvir) {
     console.log(addenvir[0]);
     addenvir[0].addEventListener('click', addEnvironment, false);
 };
+
+// 跳转到loading事件
+function jumpToLoading(){
+    window.location.assign("8-circle.html");
+}
 
 
 // 获取Json后调用addEnvironment方法更新列表环境
