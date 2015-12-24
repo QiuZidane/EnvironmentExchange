@@ -43,7 +43,25 @@ function listSelect(event){
         gotourl.setAttribute('href',url);
     };
 
-    
+    jumpToLoading();
+        
+}
+
+// 跳转到loading事件
+// 1、加遮蔽    
+// 2、间隔1秒后跳转--只是demo这样，效果是遮蔽逐渐消失
+function jumpToLoading(){
+    shadowshow();
+    setTimeout()
+}
+
+function shadowshow(){
+    document.getElementById("shadow").style.display = "block";
+}  
+  
+
+function shadowhide(){
+    document.getElementById("shadow").style.display = "none";
 }
 
 // 增加地址
@@ -76,8 +94,7 @@ function addEnvironment(text,envaddress){
 var envirlist = document.getElementById('envirlist');
 if (envirlist) {
     console.log(envirlist);
-    // envirlist.addEventListener('click', listSelect, false);
-    envirlist.addEventListener('click', jumpToLoading, false);
+    envirlist.addEventListener('click', listSelect, false);
 };
 
 
@@ -87,11 +104,6 @@ if (addenvir) {
     console.log(addenvir[0]);
     addenvir[0].addEventListener('click', addEnvironment, false);
 };
-
-// 跳转到loading事件
-function jumpToLoading(){
-    window.location.assign("8-circle.html");
-}
 
 
 // 获取Json后调用addEnvironment方法更新列表环境
