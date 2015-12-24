@@ -35,24 +35,24 @@ function listSelect(event){
         setStatus(selectT);
     };
 
-    // 将列表url赋值给跳转按钮
+    // 将列表url信息赋值给跳转和遮蔽内容
     var url = selectT.getAttribute('href');
     console.log('url='+url);
-    var gotourl = document.getElementById('gotourl');
-    if (gotourl) {        
-        gotourl.setAttribute('href',url);
-    };
-
-    jumpToLoading();
+    document.getElementById('loading_text').innerHTML = "正在连接到:" + "<br>" + url;
+    jumpToLoading(url);
         
 }
 
 // 跳转到loading事件
 // 1、加遮蔽    
 // 2、间隔1秒后跳转--只是demo这样，效果是遮蔽逐渐消失
-function jumpToLoading(){
+function jumpToLoading(url){
+    console.log(url);
     shadowshow();
-    setTimeout()
+    var testUrl = (url=="index0.html") ? "index0.html" : "http://"+url;
+    setTimeout(function(){
+        window.location.assign(testUrl);
+    },1000);
 }
 
 function shadowshow(){
