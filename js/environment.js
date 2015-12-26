@@ -1,5 +1,7 @@
-var envlist = {
+var envlist = {    
+    // item：环境行信息
     item : document.querySelectorAll("li[name]"),
+    // selectedlist：返回选择的行
     selectedlist : function(){
         var SELECTED = "list-group-item active";
         var listitem = this.item;
@@ -9,8 +11,11 @@ var envlist = {
                 return listitem[i];
             };
         };
-    }
+    },
+    // envjson:以json格式保存环境列表
+    envjson : ""
 }
+
 
 // 设置列表点击事件
 function listSelect(event){
@@ -85,7 +90,6 @@ function addEnvironment(text,envaddress){
 
     // 更新全局对象envlist.item
     envlist.item = document.querySelectorAll("li[name]");;
-
 }
 
 
@@ -108,13 +112,47 @@ if (addenvir) {
 
 // 获取Json后调用addEnvironment方法更新列表环境
 $.getJSON("envir.json", function(data) {  //这是异步方式获取Json数据，data就是json对象，不需要再转换了
-    for (var key in data) {   
-        addEnvironment(key,data[key]); 
-        console.log("address = "+ data[key]);   
-    };
-    // $("#list2").html("功能环境: 122.138.29.155");
+
+    // 检测是否支持Html5-web存储
+    if(typeof(Storage)!=="undefined")
+    {
+        console.log("支持Html5-web存储!");
+
+        // 检查如果已有本地存储信息，则不读取文件内容
+        if (localStorage.jsonflag == "has") {
+            console.log("已有本地存储信息(记录数="+localStorage.sumoflist+")，则不读取文件内容");
+            alert("已有本地存储信息(记录数="+localStorage.sumoflist+")，则不读取文件内容");
+
+        } else {
+
+            console.log("不存在本地存储信息，读取文件内容");
+            console.log(JSON.stringify(data));
+            for (var key in data) {   
+                addEnvironment(key,data[key]); 
+                console.log("address = "+ data[key]);   
+            }; 
+            localStorage.jsonflag = "has";
+            localStorage.sumoflist = envlist.item.length;
+            console.log("设置本地存储属性sumoflist="+localStorage.sumoflist);
+            alert("设置本地存储属性sumoflist="+localStorage.sumoflist);
+        };  
+
+    }
+    else
+    {
+        consolg.log(" Sorry! 不支持Html5-web存储");
+    } 
 
 });
+
+
+// localStorage处理
+// 清除localStorage.sumoflist localStorage.jsonflag
+var removebtn = document.getElementById('remove');
+removebtn.addEventListener('click',function(){
+    localStorage.removeItem("sumoflist");
+    localStorage.removeItem("jsonflag");
+},false);
 
 
 
