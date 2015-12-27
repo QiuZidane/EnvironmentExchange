@@ -13,11 +13,11 @@ var envlist = {
         };
     },
     // envjson:以json格式保存环境列表
-    envjson : ""
+    envjson : null
 }
 
 
-// 设置列表点击事件
+// 设置点击列表事件:选取对应环境-->显示遮蔽-->跳转到对应url
 function listSelect(event){
     var SELECTED = 'list-group-item active';
     var UNSELECTED = 'list-group-item';
@@ -60,16 +60,15 @@ function jumpToLoading(url){
     },1000);
 }
 
+// ======= 遮蔽处理 =======
 function shadowshow(){
     document.getElementById("shadow").style.display = "block";
-}  
-  
-
+}
 function shadowhide(){
     document.getElementById("shadow").style.display = "none";
 }
 
-// 增加地址
+// ======= 增加测试地址 =======
 function addEnvironment(text,envaddress){
     var elistitem = document.querySelectorAll("li[name]");    
     var parentlist = document.getElementById('envirlist');
@@ -94,7 +93,7 @@ function addEnvironment(text,envaddress){
 
 
 
-// 列表点击事件
+// 绑定列表点击事件
 var envirlist = document.getElementById('envirlist');
 if (envirlist) {
     console.log(envirlist);
@@ -102,7 +101,7 @@ if (envirlist) {
 };
 
 
-// 新增列表行点击事件
+// 新增测试环境点击事件
 var addenvir = document.getElementsByClassName('addenvir');
 if (addenvir) {
     console.log(addenvir[0]);
@@ -111,6 +110,8 @@ if (addenvir) {
 
 
 // 获取Json后调用addEnvironment方法更新列表环境
+// demo:首次读取本地JSON文件-->用户新增环境后更新HTML并存储到localStorage--->再次登录页面时读取localStorage
+// 后续改为首次读取服务器JSON文件展现-->用户新增环境后更新HTML并存储到localStorage-->后台将localStorage信息上传到服务器JSON文件
 $.getJSON("envir.json", function(data) {  //这是异步方式获取Json数据，data就是json对象，不需要再转换了
 
     // 检测是否支持Html5-web存储
@@ -118,10 +119,10 @@ $.getJSON("envir.json", function(data) {  //这是异步方式获取Json数据�
     {
         console.log("支持Html5-web存储!");
 
-        // 检查如果已有本地存储信息，则不读取文件内容
+        // 检查如果已有本地存储信息，则直接读取本地存储数据        
         if (localStorage.jsonflag == "has") {
             console.log("已有本地存储信息(记录数="+localStorage.sumoflist+")，则不读取文件内容");
-            alert("已有本地存储信息(记录数="+localStorage.sumoflist+")，则不读取文件内容");
+            //alert("已有本地存储信息(记录数="+localStorage.sumoflist+")，则不读取文件内容");
 
         } else {
 
@@ -131,28 +132,53 @@ $.getJSON("envir.json", function(data) {  //这是异步方式获取Json数据�
                 addEnvironment(key,data[key]); 
                 console.log("address = "+ data[key]);   
             }; 
-            localStorage.jsonflag = "has";
-            localStorage.sumoflist = envlist.item.length;
-            console.log("设置本地存储属性sumoflist="+localStorage.sumoflist);
-            alert("设置本地存储属性sumoflist="+localStorage.sumoflist);
+            setLocalStorage();
         };  
 
-    }
-    else
+    }    
+    else // 不支持则提示
     {
         consolg.log(" Sorry! 不支持Html5-web存储");
     } 
 
 });
 
+/*
+ * ======== localStorage处理 ========
+ *
+ */
+// 设置LocalStorage,其中
+// localStorage.jsonflag-存在json数据
+// localStorage.sumoflist-测试环境的数目
+// localStorage.jsondata-具体json数据，字符串形式存储
 
-// localStorage处理
+var setLocalStorage = function(){
+    try{ 
+        localStorage.setItem("jsonflag","has"); 
+        localStorage.sumoflist = envlist.item.length;
+    } catch(oException){ 
+        if (oException.name == 'QuotaExceededError'){ 
+        console.log('超出本地存储限额！'); 
+        // 如果历史信息不重要了，可清空后再设置 
+        localStorage.clear(); 
+        // 两种设置方法
+        localStorage.setItem("jsonflag","has"); 
+        localStorage.sumoflist = envlist.item.length;
+        } 
+    }
+    console.log("设置本地存储属性sumoflist="+localStorage.sumoflist);
+    //alert("设置本地存储属性sumoflist="+localStorage.sumoflist);    
+};
+
 // 清除localStorage.sumoflist localStorage.jsonflag
 var removebtn = document.getElementById('remove');
 removebtn.addEventListener('click',function(){
     localStorage.removeItem("sumoflist");
     localStorage.removeItem("jsonflag");
+    alert("已清空本地存储信息");
 },false);
+
+
 
 
 
