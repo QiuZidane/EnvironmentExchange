@@ -88,11 +88,19 @@ function addEnvironment(text,envaddress){
     var parentlist = document.getElementById('envirlist');
     var newli = document.createElement('li');
     var address = envaddress || "122.133.111.32:9022";
-    if (!envaddress) {  // 如果第二个参数是空，说明是鼠标点击新增事件
-        text = '测试环境'+ (listitem.length+1);
-        newli.innerHTML = '测试环境'+ (listitem.length+1) + ':' + address;
-    } else {
+    if (text==null) {   // 如果第1个参数为null，说明是鼠标点击新增
+        var manualitem = 1;
+        for (var i = 0; i < listitem.length; i++) {
+            if (listitem[i].getAttribute('flag')=='manual') {
+                manualitem ++;
+            };
+        };                
+        text = '手工添加测试环境' + manualitem;
+        newli.innerHTML = text+ ': ' + address;    
+        newli.setAttribute('flag','manual');    
+    } else {            // 读取JSON数据时调用的新增事件
         newli.innerHTML = text + ": " + envaddress;
+        newli.setAttribute('flag','auto');
     };    
     newli.setAttribute('name',text);
     newli.setAttribute('class','list-group-item');
@@ -105,8 +113,6 @@ function addEnvironment(text,envaddress){
     setLocalStorage();
 }
 
-
-
 // 绑定列表点击事件
 var envirlist = document.getElementById('envirlist');
 if (envirlist) {
@@ -115,12 +121,54 @@ if (envirlist) {
 };
 
 
-// 新增测试环境点击事件
+// 新增测试环境点击事件 -- 取消，改为模态方式弹出页面输入IP和端口
 var addenvir = document.getElementsByClassName('addenvir');
 if (addenvir) {
     // console.log(addenvir[0]);
-    addenvir[0].addEventListener('click', addEnvironment, false);
+    // addenvir[0].addEventListener('click', addEnvironment, false);    
 };
+
+// 模态窗口提交按钮，绑定Click事件
+var submitaddress = document.getElementById('submitaddress');
+if (submitaddress) {    
+    submitaddress.addEventListener('click', addEnvironmentByManual, false);
+    
+};
+
+
+function addEnvironmentByManual(ipaddress,port){  
+
+    var ipaddress = document.getElementById('ipaddress').value;    
+    var port = document.getElementById('port').value;  
+
+    function isip(s){ // 检查ip合法性
+        var re = s.split(".") 
+        var check = function(v){
+            try{
+                return ( v<=255 && v>=0);
+            }catch(x) {
+                return false;
+            }
+        };         
+        return (re.length==4) ? (check(re[0]) && check(re[1]) && check(re[2]) && check(re[3])) : false ;
+    } 
+    
+    if (ipaddress == '' || port == '') {
+        alert("IP或端口为空,请重新输入!")
+    } else if (!isip(ipaddress)){        
+        alert("ip不合法");
+    } else if ( port>99999 || port<0){
+        alert("端口号不合法");
+    } else {
+        var envaddress = ipaddress + ":" + port ;
+        // alert("输入的地址为:" + ipaddress + ":" + port);
+        addEnvironment(null,envaddress) ;
+        $('#envirModal').modal('hide');
+    };
+
+     
+
+}
 
 
 // 获取Json后调用addEnvironment方法更新列表环境
@@ -140,7 +188,7 @@ if(typeof(Storage)!=="undefined")
     console.log("支持Html5-web存储!");
     // 检查如果已有本地存储信息，则直接读取本地存储数据        
     if (localStorage.jsonflag == "has") {
-        console.log("已有本地存储信息(记录数="+localStorage.sumoflist+")，则不读取文件内容");
+        console.log("已有本地存储信息(记录数="+localStorage.sumoflist+")，不读取文件内容");
         console.log(localStorage.jsondata);        
         var localdata = JSON.parse(localStorage.jsondata);
         for (var key in localdata) {   

@@ -20,7 +20,7 @@
     </div>
     <div class="envirlistbelow"> 
         <ul id="envirlist"> 
-            <!-- <li id="list1" name="demo环境" href="index0.html" class="list-group-item">demo环境</li>                 -->
+            <!-- <li id="list1" name="demo环境" href="index0.html" flag="json" class="list-group-item">demo环境</li>                 -->
         </ul> 
         <ul><!-- 这里用了个技巧,将text左移出视线，这行的作用是保证行高 -->
             <li tag="filler" class="list-group-item" style="text-indent:-9999px">2</li> 
@@ -31,13 +31,16 @@
     <div class="footlist">
         <ul class="fixed-nav">
             <li class=""></li>
-            <li class="addenvir item2 current" id="add"><a href="#">增加</a></li>
-            <li class="item3 current" id="remove"><a href="#">恢复</a></li>
+            <li class="addenvir item2 current" id="add"><a href="#">
+                <!-- 按钮触发Bootstrap模态框 -->
+                <button data-toggle="modal" data-target="#envirModal">增加地址</button>
+            </a></li>
+            <!-- <li class="item3 current" id="remove"><a href="#">重置</a></li> -->
             <li class=""></li>
         </ul>
     </div>
 
-    <!-- 遮蔽处理 -->
+    <!-- 遮蔽处理:转圈圈 -->
     <div id="shadow" onclick="shadowhide();">
         <table class="shadow_text">
             <tr>
@@ -60,6 +63,39 @@
         </table>  
     </div>
  
+     <!-- BootStrap模态框（Modal） -->
+    <div class="modal fade" id="envirModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop='static'>
+       <div class="modal-dialog">
+          <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close"data-dismiss="modal" aria-hidden="true">
+                      &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                   输入IP地址和端口:
+                </h4>
+             </div>
+             <div class="modal-body">
+                 <div class="form-group">
+                    <label for="name">IP地址</label>
+                    <input type="text" class="form-control" id="ipaddress" 
+                     placeholder="请输入IP地址">
+                    <br>
+                    <label for="name">端口</label>
+                    <input type="text" class="form-control" id="port" 
+                     placeholder="请输入端口">                     
+                 </div>
+             </div>
+             <div class="modal-footer">
+<!--                 <button type="button" class="btn btn-default" id="submitaddress" 
+                   data-dismiss="modal">提交 -->
+                <button type="button" class="btn btn-default" 
+                    id="submitaddress">提交   
+                </button>
+             </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
   
                 
     <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
