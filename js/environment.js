@@ -99,8 +99,13 @@ function addEnvironment(text,envaddress){
         newli.innerHTML = text+ ': ' + address;    
         newli.setAttribute('flag','manual');    
     } else {            // 读取JSON数据时调用的新增事件
-        newli.innerHTML = text + ": " + envaddress;
-        newli.setAttribute('flag','auto');
+        newli.innerHTML = text + ": " + envaddress;        
+        if (text.substring(0,2)=='手工') {
+            newli.setAttribute('flag','manual');
+        }else{
+            newli.setAttribute('flag','auto');
+        };
+        
     };    
     newli.setAttribute('name',text);
     newli.setAttribute('class','list-group-item');
@@ -238,18 +243,13 @@ function setLocalStorage(){
 };
 
 // 清除localStorage.sumoflist localStorage.jsonflag
-var removebtn = document.getElementById('remove');
-removebtn.addEventListener('click',function(){
-    localStorage.removeItem("sumoflist");
-    localStorage.removeItem("jsonflag");
-    localStorage.removeItem("jsondata");
-    alert("已清空本地存储信息");
-    //清空然后重新读取json文件的地址
-    // for (var key in environmentList) {   
-    //     addEnvironment(key,environmentList[key]); 
-    //     console.log("address = "+ environmentList[key]);   
-    // };     
-},false);
+// var removebtn = document.getElementById('remove');
+// removebtn.addEventListener('click',function(){
+//     localStorage.removeItem("sumoflist");
+//     localStorage.removeItem("jsonflag");
+//     localStorage.removeItem("jsondata");
+//     alert("已清空本地存储信息");    
+// },false);
 
 
 
